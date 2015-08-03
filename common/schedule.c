@@ -1498,6 +1498,7 @@ static void schedule(void)
 	    }
     }
 */
+
 //end
 
     TRACE_4D(TRC_SCHED_SWITCH,
