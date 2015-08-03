@@ -123,7 +123,8 @@
 /***********************[begin: xballoon]*************************************/
 #define SCHEDOP_sleep 11
 struct sched_sleep {
-    unsigned long long int timeout; 
+    /*unsigned long long int timeout;*/
+      uint64_t timeout; 
 };
 typedef struct sched_sleep sched_sleep_t;
 DEFINE_XEN_GUEST_HANDLE(sched_sleep_t);

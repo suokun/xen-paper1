@@ -6,7 +6,8 @@
 #include "event_channel.h"
 #pragma pack(4)
 struct compat_sched_sleep {
-    unsigned long long int timeout;
+
+      uint64_t timeout;
 };
 typedef struct compat_sched_sleep sched_sleep_compat_t;
 DEFINE_COMPAT_HANDLE(sched_sleep_compat_t);

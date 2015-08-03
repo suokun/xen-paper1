@@ -1395,10 +1395,12 @@ static void schedule(void)
 //    uint64_t sum_time = 0;
 //    uint64_t rest_time = 0;
 //    uint64_t vcpu_running_time = 0;
-/*    uint16_t cap = 0;
-    uint64_t t_start, t_end, t_delta = 0;
-    struct vcpu *idlev = idle_vcpu[1];
-*/
+//    uint16_t cap = 0;
+//    uint64_t t_start = 0;
+//    uint64_t t_end = 0;
+//   uint64_t t_delta = 0;
+//    struct vcpu *idlev = idle_vcpu[1];
+
     //struct vcpu_runstate_info runstate1, runstate2;
     //u64 cpu_time1, cpu_time2;
     //uint64_t sleep;
