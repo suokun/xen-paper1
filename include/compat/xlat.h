@@ -853,6 +853,7 @@ enum XLAT_tmem_op_u {
             (_d_)->time[i0] = (_s_)->time[i0]; \
         } \
     } \
+    (_d_)->state_AB = (_s_)->state_AB; \
 } while (0)
 
 #define CHECK_vcpu_set_periodic_timer \

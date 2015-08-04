@@ -88,7 +88,7 @@ struct vcpu_runstate_info {
     uint64_t time[4];
     
     /*add by Kun*/
-    /*int	     state_AB;*/
+    int	     state_AB;
 };
 typedef struct vcpu_runstate_info vcpu_runstate_info_t;
 DEFINE_XEN_GUEST_HANDLE(vcpu_runstate_info_t);

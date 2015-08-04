@@ -1358,7 +1358,7 @@ csched_acct(void* dummy)
 	    //add by Kun
   	    TRACE_6D(TRC_SCHED_KUN_27, svc->vcpu->domain->domain_id, svc->vcpu->vcpu_id, 
 	    		    	atomic_read(&svc->credit), credit_fair, svc->pri, 1);
-	    //svc->vcpu->state_AB = 0;
+	    svc->vcpu->runstate.state_AB = 0;
 	    //end 
 
             /* Increment credit */

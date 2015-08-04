@@ -61,11 +61,11 @@
 #define VCPU_kernel_sp 1368 /* offsetof(struct vcpu, arch.pv_vcpu.kernel_sp) */
 #define VCPU_kernel_ss 1360 /* offsetof(struct vcpu, arch.pv_vcpu.kernel_ss) */
 #define VCPU_guest_context_flags 776 /* offsetof(struct vcpu, arch.vgc_flags) */
-#define VCPU_nmi_pending 317 /* offsetof(struct vcpu, async_exception_state[(1)-1].pending) */
-#define VCPU_mce_pending 319 /* offsetof(struct vcpu, async_exception_state[(2)-1].pending) */
-#define VCPU_nmi_old_mask 318 /* offsetof(struct vcpu, async_exception_state[(1)-1].old_mask) */
-#define VCPU_mce_old_mask 320 /* offsetof(struct vcpu, async_exception_state[(2)-1].old_mask) */
-#define VCPU_async_exception_mask 321 /* offsetof(struct vcpu, async_exception_mask) */
+#define VCPU_nmi_pending 325 /* offsetof(struct vcpu, async_exception_state[(1)-1].pending) */
+#define VCPU_mce_pending 327 /* offsetof(struct vcpu, async_exception_state[(2)-1].pending) */
+#define VCPU_nmi_old_mask 326 /* offsetof(struct vcpu, async_exception_state[(1)-1].old_mask) */
+#define VCPU_mce_old_mask 328 /* offsetof(struct vcpu, async_exception_state[(2)-1].old_mask) */
+#define VCPU_async_exception_mask 329 /* offsetof(struct vcpu, async_exception_mask) */
 #define VCPU_TRAP_NMI 1 /* VCPU_TRAP_NMI */
 #define VCPU_TRAP_MCE 2 /* VCPU_TRAP_MCE */
 #define _VGCF_failsafe_disables_events 3 /* _VGCF_failsafe_disables_events */

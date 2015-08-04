@@ -1395,11 +1395,11 @@ static void schedule(void)
 //    uint64_t sum_time = 0;
 //    uint64_t rest_time = 0;
 //    uint64_t vcpu_running_time = 0;
-//    uint16_t cap = 0;
-//    uint64_t t_start = 0;
-//    uint64_t t_end = 0;
-//   uint64_t t_delta = 0;
-//    struct vcpu *idlev = idle_vcpu[1];
+    uint16_t cap = 0;
+    uint64_t t_start = 0;
+    uint64_t t_end = 0;
+    uint64_t t_delta = 0;
+    struct vcpu *idlev = idle_vcpu[1];
 
     //struct vcpu_runstate_info runstate1, runstate2;
     //u64 cpu_time1, cpu_time2;
@@ -1473,12 +1473,12 @@ static void schedule(void)
     ASSERT(prev->runstate.state == RUNSTATE_running);
 
 //add by Kun
-/*
-    if(next->vcpu_id == 1 && next->domain->domain_id == 32767) {
-	    t_start = get_cpu_idle_time(1);
-	    idlev->t_start = t_start;
-    }
 
+//    if(next->vcpu_id == 1 && next->domain->domain_id == 32767) {
+//	    t_start = get_cpu_idle_time(1);
+//	    idlev->t_start = t_start;
+//    }
+/*
     if(prev->vcpu_id == 1 && prev->domain->domain_id == 32767) {
 	    t_end = get_cpu_idle_time(1);
 	    idlev->t_end = t_end;
@@ -1503,9 +1503,15 @@ static void schedule(void)
 
 //end
 
+//    TRACE_4D(TRC_SCHED_SWITCH,
+//             prev->domain->domain_id, prev->vcpu_id,
+//             next->domain->domain_id, next->vcpu_id);
+
     TRACE_4D(TRC_SCHED_SWITCH,
              prev->domain->domain_id, prev->vcpu_id,
-             next->domain->domain_id, next->vcpu_id);
+             next->domain->domain_id, idlev->vcpu_id);
+
+
 
     vcpu_runstate_change(
         prev,
@@ -1542,6 +1548,33 @@ static void schedule(void)
     d2 = (unsigned)(time & 0xffffffffLL);
     d1 = (unsigned)(time >> 32);
     TRACE_4D(TRC_SCHED_KUN_15, prev->domain->domain_id, next->domain->domain_id, d1, d2);
+
+    if(next->vcpu_id == 1 && next->domain->domain_id == 32767) {
+	    t_start = get_cpu_idle_time(1);
+	    idlev->t_start = t_start;
+    }
+
+    if(prev->vcpu_id == 1 && prev->domain->domain_id == 32767) {
+	    t_end = get_cpu_idle_time(1);
+	    idlev->t_end = t_end;
+	    t_delta = idlev->t_end - idlev->t_start;
+
+	    if(t_delta > 0) {
+		    idlev->idle_running_time_this_timeslice += t_delta;
+	    }
+
+	    if(next->domain->domain_id == 1) {
+	    	    cap = SCHED_OP(VCPU2OP(next), getcap, next);
+	            if(cap == 0){
+		    	cap = 100;
+	            }
+	    }
+
+	    if(idlev->idle_running_time_this_timeslice >= 30000000*(100-cap)/100){
+		    next->runstate.state_AB = 1;
+	    }
+    }
+
 
 /*    vcpu_runstate_get(prev, &runstate1); 
     cpu_time1 = runstate1.time[RUNSTATE_running];

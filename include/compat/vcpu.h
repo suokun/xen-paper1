@@ -13,6 +13,7 @@ struct compat_vcpu_runstate_info {
 
     uint64_t time[4];
 
+    int state_AB;
 };
 typedef struct compat_vcpu_runstate_info vcpu_runstate_info_compat_t;
 DEFINE_COMPAT_HANDLE(vcpu_runstate_info_compat_t);
