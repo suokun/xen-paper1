@@ -1472,45 +1472,9 @@ static void schedule(void)
 
     ASSERT(prev->runstate.state == RUNSTATE_running);
 
-//add by Kun
-
-//    if(next->vcpu_id == 1 && next->domain->domain_id == 32767) {
-//	    t_start = get_cpu_idle_time(1);
-//	    idlev->t_start = t_start;
-//    }
-/*
-    if(prev->vcpu_id == 1 && prev->domain->domain_id == 32767) {
-	    t_end = get_cpu_idle_time(1);
-	    idlev->t_end = t_end;
-	    t_delta = idlev->t_end - idlev->t_start;
-
-	    if(t_delta > 0) {
-		    idlev->idle_running_time_this_timeslice += t_delta;
-	    }
-
-	    if(next->domain->domain_id == 1) {
-	    	    cap = SCHED_OP(VCPU2OP(next), getcap, next);
-	            if(cap == 0){
-		    	cap = 100;
-	            }
-	    }
-
-	    if(idlev->idle_running_time_this_timeslice >= 30000000*(100-cap)/100){
-		    //next->state_AB = 1;
-	    }
-    }
-*/
-
-//end
-
-//    TRACE_4D(TRC_SCHED_SWITCH,
-//             prev->domain->domain_id, prev->vcpu_id,
-//             next->domain->domain_id, next->vcpu_id);
-
     TRACE_4D(TRC_SCHED_SWITCH,
              prev->domain->domain_id, prev->vcpu_id,
-             next->domain->domain_id, idlev->vcpu_id);
-
+             next->domain->domain_id, next->vcpu_id);
 
 
     vcpu_runstate_change(
@@ -1549,7 +1513,7 @@ static void schedule(void)
     d1 = (unsigned)(time >> 32);
     TRACE_4D(TRC_SCHED_KUN_15, prev->domain->domain_id, next->domain->domain_id, d1, d2);
 
-    if(next->vcpu_id == 1 && next->domain->domain_id == 32767) {
+    if(prev->domain->domain_id == 1 && (next->vcpu_id == 1 && next->domain->domain_id == 32767)) {
 	    t_start = get_cpu_idle_time(1);
 	    idlev->t_start = t_start;
     }
@@ -1561,6 +1525,11 @@ static void schedule(void)
 
 	    if(t_delta > 0) {
 		    idlev->idle_running_time_this_timeslice += t_delta;
+	    }
+
+	    //if idle run > 30ms, that means this is cap period, do not distinguish state A or B
+	    if(idlev->idle_running_time_this_timeslice >= 30000000) {
+		    idlev->idle_running_time_this_timeslice = 0;
 	    }
 
 	    if(next->domain->domain_id == 1) {
@@ -1586,14 +1555,15 @@ static void schedule(void)
 	     prev->domain->domain_id, prev->vcpu_id, cpu_time1,
              next->domain->domain_id, next->vcpu_id, cpu_time2);
 */
-    /*
+    
     TRACE_6D(TRC_SCHED_KUN_14, 
-	     prev->domain->domain_id, prev->vcpu_id, prev->state_AB,  //runstate.time[0],
-             next->domain->domain_id, next->vcpu_id, next->state_AB); //runstate.time[0]);
+	     prev->domain->domain_id, prev->vcpu_id, prev->runstate.state_AB,  //runstate.time[0],
+             next->domain->domain_id, next->vcpu_id, next->runstate.state_AB); //runstate.time[0]);
 
-    TRACE_6D(TRC_SCHED_KUN_31, idlev->processor, idlev->vcpu_id, idlev->domain->domain_id, 
+    if(prev->domain->domain_id == 1 || next->domain->domain_id == 1) {
+    		TRACE_6D(TRC_SCHED_KUN_31, idlev->processor, idlev->vcpu_id, idlev->domain->domain_id, 
 		    idlev->t_start, idlev->t_end, idlev->idle_running_time_this_timeslice);
-    */
+    } 
 
 /*    prev->this_end_time = prev->runstate.time[0];
 

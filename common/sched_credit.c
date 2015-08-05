@@ -1393,7 +1393,7 @@ csched_acct(void* dummy)
                     set_bit(CSCHED_FLAG_VCPU_PARKED, &svc->flags); 
                 }
 
-                /* Lower bound on credits */
+                /* Lower bound on credits, credits_per_tslice = 300 */
                 if ( credit < -prv->credits_per_tslice )
                 {
                     SCHED_STAT_CRANK(acct_min_credit);
