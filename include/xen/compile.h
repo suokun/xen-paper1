@@ -1,5 +1,5 @@
-#define XEN_COMPILE_DATE	"Wed Aug  5 10:10:14 MDT 2015"
-#define XEN_COMPILE_TIME	"10:10:14"
+#define XEN_COMPILE_DATE	"Mon Aug 10 16:00:29 MDT 2015"
+#define XEN_COMPILE_TIME	"16:00:29"
 #define XEN_COMPILE_BY		"root"
 #define XEN_COMPILE_DOMAIN	"(none)"
 #define XEN_COMPILE_HOST	"disco-0007"

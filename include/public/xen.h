@@ -161,6 +161,10 @@ DEFINE_XEN_GUEST_HANDLE(xen_ulong_t);
 #define VIRQ_XC_RESERVED 11 /* G. Reserved for XenClient                     */
 #define VIRQ_ENOMEM     12 /* G. (DOM0) Low on heap memory       */
 
+/*add by Kun*/
+#define VIRQ_STATE_BA   13
+/*end*/
+
 /* Architecture-specific VIRQ definitions. */
 #define VIRQ_ARCH_0    16
 #define VIRQ_ARCH_1    17

@@ -1391,7 +1391,13 @@ csched_acct(void* dummy)
                     SCHED_STAT_CRANK(vcpu_park);
                     vcpu_pause_nosync(svc->vcpu);
                     set_bit(CSCHED_FLAG_VCPU_PARKED, &svc->flags); 
-                }
+                }//add by Kun, 加完credit，(1)如果credit<0 && 没有被cap
+		else{
+			if(svc->vcpu->domain->domain_id == 1) {
+				send_guest_vcpu_virq(svc->vcpu, VIRQ_STATE_BA);
+			}
+		}
+		//end
 
                 /* Lower bound on credits, credits_per_tslice = 300 */
                 if ( credit < -prv->credits_per_tslice )
@@ -1430,6 +1436,12 @@ csched_acct(void* dummy)
 			credit /= 2;
 			atomic_set(&svc->credit, credit);
                 }
+
+		//add by Kun
+		if(svc->vcpu->domain->domain_id == 1) {
+			send_guest_vcpu_virq(svc->vcpu, VIRQ_STATE_BA);
+		}
+		//end
             }
 
             SCHED_VCPU_STAT_SET(svc, credit_last, credit);
